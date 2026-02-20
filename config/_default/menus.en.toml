@@ -1,0 +1,17 @@
+# -- Main Navigation --
+
+[[main]]
+  name = "Browse Plugins"
+  pageRef = "plugins"
+  weight = 10
+
+[[main]]
+  name = "Submit a Plugin"
+  pageRef = "contributing"
+  weight = 20
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/AcademySoftwareFoundation/ori-shared-platform"
+  weight = 30

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0E1112"/>
+      <stop offset="45%"  stop-color="#091820"/>
+      <stop offset="100%" stop-color="#002033"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#0099CC" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0099CC" stop-opacity="0"/>
+    </linearGradient>
+    <!-- subtle grid lines -->
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#0099CC" stroke-width="0.4" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+
+  <!-- base dark gradient -->
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- grid overlay -->
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+
+  <!-- blue glow from top -->
+  <rect width="1920" height="600" fill="url(#glow)"/>
+
+  <!-- accent circle — subtle depth -->
+  <circle cx="960" cy="200" r="520" fill="#0099CC" fill-opacity="0.04"/>
+  <circle cx="960" cy="200" r="320" fill="#0099CC" fill-opacity="0.04"/>
+</svg>

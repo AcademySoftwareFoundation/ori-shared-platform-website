@@ -1,0 +1,98 @@
+# -- Theme Options --
+# https://blowfish.page/docs/configuration/
+
+colorScheme = "aswf"
+defaultAppearance = "dark"
+autoSwitchAppearance = true
+
+enableSearch = true
+enableCodeCopy = false
+enableStructuredBreadcrumbs = true
+disableImageOptimization = false
+disableTextInHeader = false
+highlightCurrentMenuArea = true
+smartTOC = false
+
+mainSections = ["plugins"]
+
+[header]
+  layout = "fixed"
+
+[footer]
+  showMenu = false
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = true
+  showScrollToTop = true
+
+[homepage]
+  layout = "background"
+  homepageImage = "img/hero-background.svg"
+  showRecent = true
+  showRecentItems = 12
+  showMoreLink = true
+  showMoreLinkDest = "plugins"
+  cardView = true
+  cardViewScreenWidth = true
+  layoutBackgroundBlur = true
+
+[article]
+  showDate = false
+  showAuthor = false
+  showHero = true
+  heroStyle = "background"
+  layoutBackgroundBlur = true
+  showBreadcrumbs = true
+  showDraftLabel = true
+  showEdit = true
+  editURL = "https://github.com/AcademySoftwareFoundation/ori-shared-platform/tree/main/plugins"
+  editAppendPath = true
+  showHeadingAnchors = false
+  showPagination = true
+  showReadingTime = false
+  showTableOfContents = false
+  showRelatedContent = true
+  relatedContentLimit = 6
+  showTaxonomies = true
+  showAuthorsBadges = false
+  showWordCount = false
+  sharingLinks = []
+  showZenMode = false
+
+[list]
+  showHero = true
+  heroStyle = "background"
+  layoutBackgroundBlur = true
+  layoutBackgroundHeaderSpace = false
+  showBreadcrumbs = true
+  showSummary = true
+  showViews = false
+  showLikes = false
+  showTableOfContents = false
+  showCards = true
+  orderByWeight = false
+  groupByYear = false
+  cardView = true
+  cardViewScreenWidth = true
+  constrainItemsWidth = false
+
+[taxonomy]
+  showTermCount = true
+  showHero = true
+  heroStyle = "background"
+  showBreadcrumbs = true
+  showViews = false
+  showLikes = false
+  showTableOfContents = false
+  cardView = true
+
+[term]
+  showHero = true
+  heroStyle = "background"
+  showBreadcrumbs = true
+  showViews = false
+  showLikes = false
+  showTableOfContents = false
+  groupByYear = false
+  cardView = true
+  cardViewScreenWidth = true

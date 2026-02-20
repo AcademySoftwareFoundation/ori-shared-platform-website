@@ -1,0 +1,19 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "Open Review Plugin Registry"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  description = "Discover community plugins for OpenRV and xStudio."
+
+[params.author]
+  name = "Open Review Initiative"
+  headline = "Open Review Plugin Registry"
+  bio = "Discover and share open source plugins for OpenRV and xStudio."
+  links = [
+    { github = "https://github.com/AcademySoftwareFoundation/ori-shared-platform" },
+  ]

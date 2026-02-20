@@ -1,0 +1,24 @@
+baseURL = "https://academysoftwarefoundation.github.io/ori-shared-platform-website/"
+languageCode = "en"
+defaultContentLanguage = "en"
+title = "Open Review Plugin Registry"
+theme = "blowfish"
+
+enableRobotsTXT = true
+summaryLength = 30
+enableEmoji = false
+
+[pagination]
+  pagerSize = 24
+
+[taxonomies]
+  tag = "tags"
+  host_app = "host_apps"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
