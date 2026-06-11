@@ -51,9 +51,8 @@ jobs:
 
       # 3. Clear any previously committed or generated plugin directories,
       #    then populate content/plugins/ from ori-shared-platform.
+      #    Plugins are organised by product: plugins/{product}/{plugin-name}/
       #    Only index.md and feature.* images are copied — no source code.
-      #    Note: sample plugin directories committed to this repo will be
-      #    replaced once real plugins exist in ori-shared-platform.
       - name: Sync plugin content into Hugo
         run: |
           set -euo pipefail
@@ -69,29 +68,36 @@ jobs:
           fi
 
           plugin_count=0
-          for plugin_dir in "$PLUGIN_SRC"/*/; do
-            [ -d "$plugin_dir" ] || continue
-            plugin_name=$(basename "$plugin_dir")
-            dest="$PLUGIN_DEST/$plugin_name"
-            mkdir -p "$dest"
+          # Iterate product directories (e.g. OpenRV/, xStudio/)
+          for product_dir in "$PLUGIN_SRC"/*/; do
+            [ -d "$product_dir" ] || continue
+            product_name=$(basename "$product_dir")
 
-            if [ ! -f "$plugin_dir/index.md" ]; then
-              echo "  SKIP $plugin_name — no index.md found"
-              continue
-            fi
+            # Iterate individual plugin directories within each product
+            for plugin_dir in "$product_dir"/*/; do
+              [ -d "$plugin_dir" ] || continue
+              plugin_name=$(basename "$plugin_dir")
+              dest="$PLUGIN_DEST/$plugin_name"
+              mkdir -p "$dest"
 
-            cp "$plugin_dir/index.md" "$dest/index.md"
-
-            # Copy any feature image (feature.png, feature.jpg, feature.webp, etc.)
-            for img in "$plugin_dir"feature.*; do
-              if [ -f "$img" ]; then
-                cp "$img" "$dest/"
-                echo "  + $plugin_name/$(basename "$img")"
+              if [ ! -f "$plugin_dir/index.md" ]; then
+                echo "  SKIP $product_name/$plugin_name — no index.md found"
+                continue
               fi
-            done
 
-            echo "  OK $plugin_name"
-            plugin_count=$((plugin_count + 1))
+              cp "$plugin_dir/index.md" "$dest/index.md"
+
+              # Copy any feature image (feature.png, feature.jpg, feature.svg, etc.)
+              for img in "$plugin_dir"feature.*; do
+                if [ -f "$img" ]; then
+                  cp "$img" "$dest/"
+                  echo "  + $product_name/$plugin_name/$(basename "$img")"
+                fi
+              done
+
+              echo "  OK $product_name/$plugin_name"
+              plugin_count=$((plugin_count + 1))
+            done
           done
 
           echo "Synced $plugin_count plugin(s) into $PLUGIN_DEST"
