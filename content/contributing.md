@@ -32,11 +32,16 @@ You only need to sign the CLA once across all ASWF projects.
 
 ### Step 2 — Prepare your plugin
 
-Structure your plugin as a directory under `plugins/` in `ori-shared-platform`, following the layout and file specifications described below. All files must be present and correct before submitting.
+Structure your plugin as a directory under the correct product subdirectory in `ori-shared-platform`. Plugins are organised by host application:
+
+- OpenRV plugins → `plugins/OpenRV/your-plugin-name/`
+- xStudio plugins → `plugins/xStudio/your-plugin-name/`
+
+All files must be present and correct before submitting. See the directory structure and file specifications below.
 
 ### Step 3 — Open a Pull Request
 
-Fork [AcademySoftwareFoundation/ori-shared-platform](https://github.com/AcademySoftwareFoundation/ori-shared-platform), add your plugin directory to `plugins/`, and open a Pull Request against the `main` branch.
+Fork [AcademySoftwareFoundation/ori-shared-platform](https://github.com/AcademySoftwareFoundation/ori-shared-platform), add your plugin directory under `plugins/OpenRV/` or `plugins/xStudio/`, and open a Pull Request against the `main` branch.
 
 Your PR will be reviewed by a project committer. The review will check that your submission meets the technical and content requirements described on this page. Reviewers may request changes before approval.
 
@@ -48,22 +53,29 @@ A committer will review your PR for:
 - Quality and accuracy of the `index.md` registry entry
 - Code quality and compatibility with the stated host application(s)
 
-Once approved and merged, your plugin directory is created in the repository and the registry site updates automatically within 24 hours (or sooner if a rebuild is triggered).
+Once approved and merged, the registry site rebuilds automatically and your plugin card appears within minutes.
 
 ---
 
 ## Plugin Directory Structure
 
-Each plugin lives in its own directory under `plugins/` in `ori-shared-platform`. The directory name becomes the plugin's URL slug on this site — choose something short and descriptive.
+Each plugin lives in its own directory under the relevant product folder in `ori-shared-platform`. The directory name becomes the plugin's URL slug on this site — choose something short and descriptive.
 
 ```
 ori-shared-platform/
 └── plugins/
-    └── your-plugin-name/       ← your plugin's directory
-        ├── index.md            ← registry entry (required)
-        ├── feature.png         ← screenshot shown on the card (required)
-        ├── README.md           ← technical documentation (optional)
-        └── src/                ← plugin source code
+    ├── OpenRV/
+    │   └── your-plugin-name/       ← OpenRV plugin directory
+    │       ├── index.md            ← registry entry (required)
+    │       ├── feature.svg         ← thumbnail shown on the card (required)
+    │       ├── README.md           ← technical documentation (optional)
+    │       └── src/                ← plugin source code
+    └── xStudio/
+        └── your-plugin-name/       ← xStudio plugin directory
+            ├── index.md            ← registry entry (required)
+            ├── feature.svg         ← thumbnail shown on the card (required)
+            ├── README.md           ← technical documentation (optional)
+            └── src/                ← plugin source code
 ```
 
 > **Directory naming:** use lowercase letters, numbers, and hyphens only.
@@ -92,7 +104,7 @@ host_app = ["OpenRV"]          # "OpenRV", "xStudio", or both
 tags     = ["color", "utility"] # see tag list below
 
 [params]
-  repoPath = "plugins/your-plugin-name"
+  repoPath = "plugins/OpenRV/your-plugin-name"  # or plugins/xStudio/your-plugin-name
 +++
 ```
 
@@ -109,7 +121,7 @@ tags     = ["color", "utility"] # see tag list below
 | `license` | Yes | SPDX identifier, e.g. `Apache-2.0`, `MIT`, `BSD-3-Clause` |
 | `host_app` | Yes | Array: `["OpenRV"]`, `["xStudio"]`, or `["OpenRV", "xStudio"]` |
 | `tags` | Yes | Array of topic tags (see below) |
-| `params.repoPath` | Yes | Path to your plugin directory within ori-shared-platform |
+| `params.repoPath` | Yes | Full path to your plugin directory, e.g. `plugins/OpenRV/your-plugin-name` |
 
 ### Suggested tags
 
@@ -120,14 +132,14 @@ Use lowercase, hyphenated values from this list (add your own if needed):
 
 ---
 
-## Screenshot Requirements
+## Thumbnail Requirements
 
-The screenshot (`feature.png`) is displayed as the card thumbnail on the registry browse page.
+The thumbnail (`feature.svg`, `feature.png`, or `feature.jpg`) is displayed as the card image on the registry browse page.
 
-- **Filename:** must be named `feature.png` or `feature.jpg`
+- **Filename:** must start with `feature.` — e.g. `feature.svg`, `feature.png`, `feature.jpg`
 - **Dimensions:** 16:9 ratio recommended — `1280×720` or `1920×1080`
 - **Content:** show the plugin in action inside the host application
-- **Format:** PNG preferred; JPEG acceptable for photographs/screenshots
+- **Format:** SVG preferred for UI mockups; PNG or JPEG for real screenshots
 
 ---
 
