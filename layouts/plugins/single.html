@@ -43,7 +43,7 @@
       {{/* GitHub source link */}}
       {{ with $repoUrl }}
         {{ $pluginMetrics := index (index site.Data "github-metrics") $.File.ContentBaseName }}
-        <div class="mb-6 print:hidden">
+        <div class="mt-6 mb-6 print:hidden">
           <a href="{{ . }}"
              target="_blank"
              rel="noopener noreferrer"
