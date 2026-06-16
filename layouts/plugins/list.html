@@ -1,0 +1,85 @@
+{{/* Plugin registry list page — overrides _default/list.html for the plugins section.
+     Adds a host_app filter bar above the card grid and loads plugin-filter.js.
+*/}}
+{{ define "main" }}
+  {{ .Scratch.Set "scope" "list" }}
+
+  {{/* Hero */}}
+  {{ if site.Params.list.showHero | default false }}
+    {{ $heroStyle := print "hero/" site.Params.list.heroStyle ".html" }}
+    {{ if templates.Exists ( printf "partials/%s" $heroStyle ) }}
+      {{ partial $heroStyle . }}
+    {{ else }}
+      {{ partial "hero/basic.html" . }}
+    {{ end }}
+  {{ end }}
+
+  {{/* Header */}}
+  <header>
+    {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+    <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
+    </div>
+  </header>
+
+  {{/* Description */}}
+  <section class="mt-0 prose flex max-w-full flex-col dark:prose-invert lg:flex-row mb-6">
+    <div class="min-w-0 min-h-0 max-w-prose w-full">
+      {{ .Content }}
+    </div>
+  </section>
+
+  {{ if gt .Pages 0 }}
+
+    {{/* Filter bar */}}
+    <style>
+      .plugin-filter-btn--active {
+        background-color: rgb(var(--color-primary-500));
+        border-color: rgb(var(--color-primary-500));
+        color: white;
+      }
+    </style>
+    <div id="plugin-filter-bar" class="mb-6 flex flex-wrap gap-2 items-center">
+      <span class="text-sm text-neutral-500 dark:text-neutral-400 mr-1">Filter:</span>
+      <button data-filter="all"
+              class="plugin-filter-btn px-3 py-1 rounded-full text-sm border border-neutral-300 dark:border-neutral-600 hover:border-primary-500 transition-colors"
+              aria-pressed="true">All</button>
+      <button data-filter="OpenRV"
+              class="plugin-filter-btn px-3 py-1 rounded-full text-sm border border-neutral-300 dark:border-neutral-600 hover:border-primary-500 transition-colors"
+              aria-pressed="false">OpenRV</button>
+      <button data-filter="xStudio"
+              class="plugin-filter-btn px-3 py-1 rounded-full text-sm border border-neutral-300 dark:border-neutral-600 hover:border-primary-500 transition-colors"
+              aria-pressed="false">xStudio</button>
+      <span id="plugin-count" class="ms-auto text-sm text-neutral-400 dark:text-neutral-500"></span>
+    </div>
+
+    {{/* Card grid — full-bleed screen-width layout matching params.toml */}}
+    <div class="relative w-screen max-w-[1600px] px-[30px] start-[calc(max(-50vw,-800px)+50%)]">
+      <section id="plugin-grid" class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
+          {{ range .Pages }}
+            {{ partial "article-link/card.html" . }}
+          {{ end }}
+        {{ end }}
+      </section>
+    </div>
+
+  {{ else }}
+    <section class="mt-10 prose dark:prose-invert">
+      <p class="py-8 border-t">
+        <em>{{ i18n "list.no_articles" | emojify }}</em>
+      </p>
+    </section>
+  {{ end }}
+
+  {{ partial "pagination.html" . }}
+
+  {{/* Filter script — loaded only on this page */}}
+  {{ with resources.Get "js/plugin-filter.js" }}
+    {{ $js := . | minify | fingerprint }}
+    <script src="{{ $js.RelPermalink }}" defer></script>
+  {{ end }}
+{{ end }}
