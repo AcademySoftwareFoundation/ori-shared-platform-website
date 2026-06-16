@@ -1,0 +1,38 @@
+{{/* Override of Blowfish's meta/edit.html.
+     For plugin pages: constructs a direct edit URL into the ori-shared-platform
+     registry entry using host_app[0] and the page slug.
+     For all other pages: falls back to the default Blowfish logic.
+*/}}
+{{ $url := "" }}
+{{ $editTitle := "" }}
+
+{{ if and (eq .Section "plugins") (.Params.host_app) }}
+  {{/* Plugin registry entry — link directly to the source file in ori-shared-platform */}}
+  {{ $product := index .Params.host_app 0 }}
+  {{ $slug := .File.ContentBaseName }}
+  {{ $url = printf "https://github.com/AcademySoftwareFoundation/ori-shared-platform/edit/main/plugins/%s/%s/index.md" $product $slug }}
+  {{ $editTitle = "Edit registry entry on GitHub" }}
+{{ else }}
+  {{/* Default Blowfish logic */}}
+  {{ $url = .Params.editURL | default (.Site.Params.article.editURL | default "#") }}
+  {{ if .Params.editAppendPath | default ( .Site.Params.article.editAppendPath | default false ) }}
+    {{ $slash := "" }}
+    {{ if ne (substr $url -1 1) "/" }}
+      {{ $slash = "/" }}
+    {{ end }}
+    {{ $url = printf "%s%s%s" $url $slash (path.Join .File.Path) }}
+  {{ end }}
+  {{ $editTitle = i18n "article.edit_title" }}
+{{ end }}
+
+<span class="mb-[2px]">
+  <a
+    href="{{ $url }}"
+    class="text-lg hover:text-primary-500"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="{{ $editTitle }}"
+    ><span class="inline-block align-text-bottom">{{ partial "icon.html" "edit" }}</span></a
+  >
+</span>
+{{- /* Trim EOF */ -}}
