@@ -42,6 +42,7 @@
 
       {{/* GitHub source link */}}
       {{ with $repoUrl }}
+        {{ $pluginMetrics := index (index site.Data "github-metrics") $.File.ContentBaseName }}
         <div class="mb-6 print:hidden">
           <a href="{{ . }}"
              target="_blank"
@@ -55,6 +56,14 @@
               <path d="M2.25 9.75 9.75 2.25M6 2.25h3.75v3.75"/>
             </svg>
           </a>
+          {{ with $pluginMetrics }}
+            <span class="ms-3 text-xs text-neutral-400 dark:text-neutral-500 align-middle">
+              {{ with index . "updatedLabel" }}updated {{ . }}{{ end }}
+              {{ if and (index . "stars") (index . "updatedLabel") }} · {{ end }}
+              {{ with index . "stars" }}⭐ {{ . }}{{ end }}
+              {{ with index . "forks" }} · ⑂ {{ . }}{{ end }}
+            </span>
+          {{ end }}
         </div>
       {{ end }}
 

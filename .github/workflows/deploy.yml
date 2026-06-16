@@ -115,6 +115,21 @@ jobs:
         run: |
           python3 - << 'PYEOF'
           import os, json, re, urllib.request, urllib.error
+          from datetime import datetime, timezone
+
+          def updated_label(pushed_at_str):
+              if not pushed_at_str:
+                  return ""
+              pushed_at = datetime.fromisoformat(pushed_at_str.replace("Z", "+00:00"))
+              days = (datetime.now(timezone.utc) - pushed_at).days
+              if days == 0:   return "today"
+              if days == 1:   return "1 day ago"
+              if days < 30:   return f"{days} days ago"
+              if days < 365:
+                  m = days // 30
+                  return f"{m} month{'s' if m > 1 else ''} ago"
+              y = days // 365
+              return f"{y} year{'s' if y > 1 else ''} ago"
 
           token = os.environ.get("GH_TOKEN", "")
           headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
@@ -141,15 +156,18 @@ jobs:
                   req = urllib.request.Request(api_url, headers=headers)
                   with urllib.request.urlopen(req, timeout=10) as resp:
                       data = json.loads(resp.read())
+                  pushed_at = data.get("pushed_at", "")
                   metrics[plugin_name] = {
-                      "stars": data.get("stargazers_count", 0),
-                      "forks": data.get("forks_count", 0),
-                      "repoUrl": repo_url,
+                      "stars":        data.get("stargazers_count", 0),
+                      "forks":        data.get("forks_count", 0),
+                      "repoUrl":      repo_url,
+                      "pushedAt":     pushed_at,
+                      "updatedLabel": updated_label(pushed_at),
                   }
-                  print(f"  OK  {plugin_name}: {metrics[plugin_name]['stars']}★  {metrics[plugin_name]['forks']}⑂")
+                  print(f"  OK  {plugin_name}: {metrics[plugin_name]['stars']}★  {metrics[plugin_name]['forks']}⑂  {metrics[plugin_name]['updatedLabel']}")
               except Exception as e:
                   print(f"  ERR {plugin_name}: {e}")
-                  metrics[plugin_name] = {"stars": 0, "forks": 0, "repoUrl": repo_url}
+                  metrics[plugin_name] = {"stars": 0, "forks": 0, "repoUrl": repo_url, "pushedAt": "", "updatedLabel": ""}
 
           os.makedirs("data", exist_ok=True)
           with open("data/github-metrics.json", "w") as f:
