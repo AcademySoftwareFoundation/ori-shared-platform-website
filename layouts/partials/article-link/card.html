@@ -131,6 +131,9 @@
         </a>
       {{ end }}
       {{ with $repoUrl }}
+        {{ with index $pluginMetrics "updatedLabel" }}
+          <span class="text-neutral-400 dark:text-neutral-500">· updated {{ . }}</span>
+        {{ end }}
         <a href="{{ . }}"
            target="_blank" rel="noopener noreferrer"
            class="ms-auto flex items-center gap-1 hover:text-primary-500 transition-colors z-10 relative font-medium"
