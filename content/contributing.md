@@ -1,6 +1,6 @@
 ---
 title: "Submit a Plugin"
-description: "How to contribute a plugin to the Open Review Plugin Registry."
+description: "How to list your plugin in the Open Review Plugin Registry."
 date: 2024-01-01
 draft: false
 showTableOfContents: true
@@ -8,86 +8,88 @@ showReadingTime: false
 showDate: false
 ---
 
-The Open Review Plugin Registry is community-driven. If you have written a plugin for OpenRV or xStudio and want it listed here, follow the process below.
+The Open Review Plugin Registry is a **discovery site** — it links to community plugins hosted in their own GitHub repositories. The registry itself does not host source code. To list your plugin, you submit a small registry entry (two files) as a Pull Request to:
 
-All plugin code and registry entries live in the same repository:
 [AcademySoftwareFoundation/ori-shared-platform](https://github.com/AcademySoftwareFoundation/ori-shared-platform)
 
-> **Note:** The full review and acceptance process is still being finalized. The steps below reflect current requirements. Check back here or watch the repository for updates before submitting.
+> **Note:** The full review and acceptance process is still being finalised. The steps below reflect current requirements. Check back here or watch the repository for updates before submitting.
 
 ---
 
-## Submission Process
+## Create a listing
 
-### Step 1 — Sign the Contributor License Agreement (CLA)
+### Step 1 — Sign the CLA
 
-Before any contribution can be accepted, you must sign the Academy Software Foundation Contributor License Agreement (CLA) via **EasyCLA**.
+Before any contribution can be accepted, you must sign the Academy Software Foundation Contributor License Agreement via **EasyCLA**.
 
-When you open your first Pull Request against an ASWF repository, the EasyCLA bot will automatically check your CLA status and guide you through signing if needed. Individual contributors sign on their own behalf; contributors working on behalf of a company require a Corporate CLA signed by an authorized representative.
-
-- Individual CLA: signed directly through the EasyCLA workflow in your PR
-- Corporate CLA: your company's legal representative must authorize your GitHub account via the [EasyCLA portal](https://easycla.lfx.linuxfoundation.org/)
+When you open your first Pull Request against an ASWF repository, the EasyCLA bot checks your status automatically and guides you through signing if needed. Individual contributors sign directly; contributors acting on behalf of a company require a Corporate CLA authorised by a company representative via the [EasyCLA portal](https://easycla.lfx.linuxfoundation.org/).
 
 You only need to sign the CLA once across all ASWF projects.
 
-### Step 2 — Prepare your plugin
+### Step 2 — Host your plugin on GitHub
 
-Structure your plugin as a directory under the correct product subdirectory in `ori-shared-platform`. Plugins are organised by host application:
+Your plugin source code must live in a **public GitHub repository** that you own or maintain. The registry links to it — reviewers, users, and the automated metrics fetch all read from that repository directly.
+
+- Any repository visibility other than public is not supported.
+- The repository must contain an open-source licence file (e.g. `LICENSE` or `LICENSE.txt`).
+
+### Step 3 — Prepare your registry entry
+
+Fork [AcademySoftwareFoundation/ori-shared-platform](https://github.com/AcademySoftwareFoundation/ori-shared-platform) and create a directory for your plugin under the correct product folder:
 
 - OpenRV plugins → `plugins/OpenRV/your-plugin-name/`
 - xStudio plugins → `plugins/xStudio/your-plugin-name/`
 
-All files must be present and correct before submitting. See the directory structure and file specifications below.
-
-### Step 3 — Open a Pull Request
-
-Fork [AcademySoftwareFoundation/ori-shared-platform](https://github.com/AcademySoftwareFoundation/ori-shared-platform), add your plugin directory under `plugins/OpenRV/` or `plugins/xStudio/`, and open a Pull Request against the `main` branch.
-
-Your PR will be reviewed by a project committer. The review will check that your submission meets the technical and content requirements described on this page. Reviewers may request changes before approval.
-
-### Step 4 — Committer review and merge
-
-A committer will review your PR for:
-- CLA compliance (confirmed automatically by EasyCLA)
-- Correct directory structure and required files
-- Quality and accuracy of the `index.md` registry entry
-- Code quality and compatibility with the stated host application(s)
-
-Once approved and merged, the registry site rebuilds automatically and your plugin card appears within minutes.
-
----
-
-## Plugin Directory Structure
-
-Each plugin lives in its own directory under the relevant product folder in `ori-shared-platform`. The directory name becomes the plugin's URL slug on this site — choose something short and descriptive.
-
-```
-ori-shared-platform/
-└── plugins/
-    ├── OpenRV/
-    │   └── your-plugin-name/       ← OpenRV plugin directory
-    │       ├── index.md            ← registry entry (required)
-    │       ├── feature.svg         ← thumbnail shown on the card (required)
-    │       ├── README.md           ← technical documentation (optional)
-    │       └── src/                ← plugin source code
-    └── xStudio/
-        └── your-plugin-name/       ← xStudio plugin directory
-            ├── index.md            ← registry entry (required)
-            ├── feature.svg         ← thumbnail shown on the card (required)
-            ├── README.md           ← technical documentation (optional)
-            └── src/                ← plugin source code
-```
-
 > **Directory naming:** use lowercase letters, numbers, and hyphens only.
 > Example: `color-correction-tool`, `rv-audio-sync`, `xstudio-pipeline-connector`
 
+Your directory must contain exactly two files:
+
+```
+plugins/
+└── OpenRV/
+    └── your-plugin-name/
+        ├── index.md       ← registry entry (required)
+        └── feature.svg    ← thumbnail shown on the card (required)
+```
+
+### Step 4 — Write `index.md`
+
+`index.md` is what powers the plugin card on this site. See the [registry entry reference](#the-registry-entry-indexmd) below for the full schema.
+
+### Step 5 — Open a Pull Request
+
+Open a PR from your fork against the `main` branch of `ori-shared-platform`. Your PR should add only the two files for your plugin — no source code.
+
+A committer will review your PR for:
+- CLA compliance (confirmed automatically by EasyCLA)
+- Correct directory structure (two files only)
+- Valid `index.md` schema — `repoUrl` pointing at a live, public GitHub repository
+- Thumbnail present and legible at card size
+
+Once approved and merged, the registry site rebuilds automatically and your plugin card appears **within minutes**.
+
 ---
 
-## The Registry Entry: `index.md`
+## Update a listing
 
-`index.md` is what powers the card on this site. It must be placed at the root of your plugin directory.
+To update your plugin's metadata (description, version, tags, thumbnail), open a PR that modifies the files inside your plugin directory. Because you are listed as the **CODEOWNER** of your directory, GitHub will automatically request your review on any PR that touches it — including your own updates.
 
-### Required front matter
+> **CODEOWNERS enforcement** is pending a one-time admin action to enable "Require review from Code Owners" in branch protection. Until then, committers review all changes.
+
+---
+
+## Remove a listing
+
+To remove your plugin from the registry, open a PR that deletes your plugin directory (`plugins/OpenRV/your-plugin-name/` or `plugins/xStudio/your-plugin-name/`). A committer will approve and merge.
+
+Removing a listing does not affect your source repository — only the registry entry is deleted.
+
+---
+
+## The registry entry: `index.md`
+
+### Front matter
 
 ```toml
 +++
@@ -104,7 +106,8 @@ host_app = ["OpenRV"]          # "OpenRV", "xStudio", or both
 tags     = ["color", "utility"] # see tag list below
 
 [params]
-  repoPath = "plugins/OpenRV/your-plugin-name"  # or plugins/xStudio/your-plugin-name
+  repoUrl   = "https://github.com/your-username/your-repo"
+  repoOwner = "your-github-username"
 +++
 ```
 
@@ -112,55 +115,52 @@ tags     = ["color", "utility"] # see tag list below
 
 | Field | Required | Description |
 |---|---|---|
-| `title` | Yes | Display name of the plugin |
-| `description` | Yes | One sentence — shown on the card and in search results |
+| `title` | Yes | Display name shown on the card |
+| `description` | Yes | One sentence — shown on the card and in search |
 | `date` | Yes | Release or submission date (ISO 8601) |
 | `draft` | Yes | Set to `false` to publish |
 | `version` | Yes | Current version string |
-| `author` | Yes | Your GitHub username or full name |
-| `license` | Yes | SPDX identifier, e.g. `Apache-2.0`, `MIT`, `BSD-3-Clause` |
-| `host_app` | Yes | Array: `["OpenRV"]`, `["xStudio"]`, or `["OpenRV", "xStudio"]` |
+| `author` | Yes | Your GitHub username |
+| `license` | Yes | SPDX identifier — e.g. `Apache-2.0`, `MIT`, `BSD-3-Clause` |
+| `host_app` | Yes | `["OpenRV"]`, `["xStudio"]`, or `["OpenRV", "xStudio"]` |
 | `tags` | Yes | Array of topic tags (see below) |
-| `params.repoPath` | Yes | Full path to your plugin directory, e.g. `plugins/OpenRV/your-plugin-name` |
+| `params.repoUrl` | Yes | Full URL of your public GitHub repository |
+| `params.repoOwner` | Yes | GitHub username or org that owns the repository |
 
 ### Suggested tags
-
-Use lowercase, hyphenated values from this list (add your own if needed):
 
 `color` · `io` · `audio` · `pipeline` · `review` · `export` · `import`
 `utility` · `workflow` · `metadata` · `conform` · `annotation` · `ui`
 
 ---
 
-## Thumbnail Requirements
+## Thumbnail requirements
 
 The thumbnail (`feature.svg`, `feature.png`, or `feature.jpg`) is displayed as the card image on the registry browse page.
 
-- **Filename:** must start with `feature.` — e.g. `feature.svg`, `feature.png`, `feature.jpg`
-- **Dimensions:** 16:9 ratio recommended — `1280×720` or `1920×1080`
-- **Content:** show the plugin in action inside the host application
+- **Filename:** must start with `feature.` — e.g. `feature.svg`
+- **Dimensions:** 16:9 ratio — `1280×720` or `1920×1080` recommended
+- **Content:** show the plugin in context inside the host application
 - **Format:** SVG preferred for UI mockups; PNG or JPEG for real screenshots
 
 ---
 
-## Body Content
+## Body content
 
-After the front matter, write a description of your plugin in Markdown. This content appears on the individual plugin detail page. Suggested sections:
+After the front matter, write a description of your plugin in Markdown. This content appears on the plugin detail page. Suggested sections:
 
 ```markdown
 ## Overview
 What the plugin does and the problem it solves.
 
 ## Requirements
-- OpenRV x.x or xStudio x.x
-- Python 3.x
-- Any other dependencies
+Host application version, Python version, OS support.
 
 ## Installation
-Step-by-step installation instructions.
+Step-by-step instructions.
 
 ## Usage
-How to configure and use the plugin.
+How to configure and run the plugin.
 ```
 
 ---
