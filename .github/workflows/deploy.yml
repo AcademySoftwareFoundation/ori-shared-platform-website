@@ -184,8 +184,10 @@ jobs:
           hugo version
 
       # 6. Build the site
+      #    --buildFuture: include pages whose `date` is ahead of the build timestamp.
+      #    Needed because plugin submitters may use a future-dated frontmatter date.
       - name: Build site
-        run: hugo --minify
+        run: hugo --minify --buildFuture
 
       # 7. Package the built site for GitHub Pages deployment
       - name: Upload Pages artifact
