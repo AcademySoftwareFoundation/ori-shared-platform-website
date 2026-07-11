@@ -32,7 +32,7 @@
     </div>
   </section>
 
-  {{ if gt .Pages 0 }}
+  {{ if gt (len .RegularPages) 0 }}
 
     {{/* Filter bar */}}
     <style>
@@ -59,7 +59,7 @@
     {{/* Card grid — full-bleed screen-width layout matching params.toml */}}
     <div class="relative w-screen max-w-[1600px] px-[30px] start-[calc(max(-50vw,-800px)+50%)]">
       <section id="plugin-grid" class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
+        {{ range (.Paginate (.RegularPages.GroupByDate "2006")).PageGroups }}
           {{ range .Pages }}
             {{ partial "article-link/card.html" . }}
           {{ end }}

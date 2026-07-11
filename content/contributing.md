@@ -12,7 +12,7 @@ The Open Review Plugin Registry is a **discovery site** — it links to communit
 
 [AcademySoftwareFoundation/ori-shared-platform](https://github.com/AcademySoftwareFoundation/ori-shared-platform)
 
-> **Note:** The full review and acceptance process is still being finalised. The steps below reflect current requirements. Check back here or watch the repository for updates before submitting.
+Before submitting, review the [acceptance criteria](https://github.com/AcademySoftwareFoundation/ori-shared-platform/blob/main/ACCEPTANCE-CRITERIA.md) to confirm your plugin is eligible.
 
 ---
 
@@ -75,7 +75,7 @@ Once approved and merged, the registry site rebuilds automatically and your plug
 
 To update your plugin's metadata (description, version, tags, thumbnail), open a PR that modifies the files inside your plugin directory. Because you are listed as the **CODEOWNER** of your directory, GitHub will automatically request your review on any PR that touches it — including your own updates.
 
-> **CODEOWNERS enforcement** is pending a one-time admin action to enable "Require review from Code Owners" in branch protection. Until then, committers review all changes.
+> **CODEOWNERS enforcement** requires a one-time admin action to enable "Require review from Code Owners" in branch protection (tracked in [ori-shared-platform#61](https://github.com/AcademySoftwareFoundation/ori-shared-platform/issues/61)).
 
 ---
 

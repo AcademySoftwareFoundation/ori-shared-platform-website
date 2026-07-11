@@ -28,7 +28,7 @@ jobs:
 # ---------------------------------------------------------------------------
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       HUGO_VERSION: 0.147.8
 
@@ -78,12 +78,13 @@ jobs:
               [ -d "$plugin_dir" ] || continue
               plugin_name=$(basename "$plugin_dir")
               dest="$PLUGIN_DEST/$plugin_name"
-              mkdir -p "$dest"
 
               if [ ! -f "$plugin_dir/index.md" ]; then
                 echo "  SKIP $product_name/$plugin_name — no index.md found"
                 continue
               fi
+
+              mkdir -p "$dest"
 
               cp "$plugin_dir/index.md" "$dest/index.md"
 
@@ -198,7 +199,7 @@ jobs:
   # ---------------------------------------------------------------------------
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
