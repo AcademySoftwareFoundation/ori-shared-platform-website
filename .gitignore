@@ -2,6 +2,9 @@
 public/
 resources/_gen/
 
+# Generated at build time — do not commit
+data/github-metrics.json
+
 # Hugo lock file
 .hugo_build.lock
 

@@ -55,11 +55,9 @@
 
 {{/* Filter attributes */}}
 {{ $hostApps := $page.Params.host_app }}
-{{ $tags := $page.Params.tags }}
 
 <article
   {{ with $hostApps }}data-host-app="{{ delimit . "," }}"{{ end }}
-  {{ with $tags }}data-tags="{{ delimit . " " }}"{{ end }}
   class="article-link--card relative min-h-full min-w-full overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-600">
   {{ with $featuredURL }}
     <div class="flex-none relative overflow-hidden thumbnail_card">
